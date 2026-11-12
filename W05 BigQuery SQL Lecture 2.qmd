@@ -355,7 +355,9 @@ LIMIT 15;
 
 Across the nine exercises, the analysis moves from user counts and GA4 parameter extraction to item-level aggregation, session-level cart summaries, daily purchase metrics, event rankings, rolling averages, and approximate distinct counts. Together, the queries illustrate how nested GA4 export data can be transformed into reporting-ready metrics.
 
-## Appendix: Published Links
 
--   **GitHub Repository:** [Insert repository URL after publishing](https://github.com/WillySuu/W05-BigQuery-SQL-Lecture-2)
--   **GitHub Pages:** [Insert live report URL after publishing](https://willysuu.github.io/W05-BigQuery-SQL-Lecture-2/W05-BigQuery-SQL-Lecture-2-With-Results.html)
+## Appendix:
+
+- **GitHub Repository:** [View My GitHub Repository](https://github.com/WillySuu/W05-BigQuery-SQL-Lecture-2)
+
+- **GitHub Pages:** [View My Published HTML Report](https://willysuu.github.io/W05-BigQuery-SQL-Lecture-2/)
