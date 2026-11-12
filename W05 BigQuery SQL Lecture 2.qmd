@@ -16,13 +16,11 @@ execute:
 
 ## Overview
 
-This report documents nine Google BigQuery SQL exercises using the public GA4 obfuscated sample e-commerce dataset. The queries demonstrate CTEs, nested fields, arrays, joins, window functions, and approximate aggregation. The SQL below is reproduced from the saved BigQuery script; code blocks are displayed for documentation and are not executed during Quarto rendering.
-
-**Dataset:** `bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_*`  
-**Environment:** Google BigQuery (SQL)  
+**Dataset:** `bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_*`\
+**Environment:** Google BigQuery (SQL)\
 **Source file:** `W05 BigQuery SQL Lecture 2.sql`
 
-> **Results note:** Interpretations are based on the SQL logic and the BigQuery results visible in the provided screenshots. The complete output tables were not exported, so no additional numerical results are assumed.
+> **Results note:** Interpretations are based on the SQL logic and the BigQuery results visible in the provided screenshots.
 
 ## Query 01: CTEs — Total Users and New Users
 
@@ -30,7 +28,7 @@ This report documents nine Google BigQuery SQL exercises using the public GA4 ob
 
 **SQL code**
 
-```sql
+``` sql
 -- Query 01: CTEs - Total Users and New Users
 
 WITH UserInfo AS (
@@ -49,10 +47,9 @@ SELECT
 FROM UserInfo;
 ```
 
+**BigQuery screenshot**
 
-**BigQuery output screenshot**
-
-![Query 1 execution result in BigQuery](images/query01.png){fig-alt="BigQuery results for Query 1" width="100%"}
+![Query 1](images/query01.png){fig-alt="BigQuery results for Query 1" width="100%"}
 
 **Result and interpretation.** The November 2020 query returned 79,421 total users and 71,734 new users in the earlier BigQuery result screenshot. The new-user flag follows the event-based definition in this query.
 
@@ -62,7 +59,7 @@ FROM UserInfo;
 
 **SQL code**
 
-```sql
+``` sql
 -- Query 02: Arrays + UNNEST
 -- Extract page_location from GA4 event parameters
 
@@ -80,10 +77,9 @@ WHERE event_name = 'page_view'
 LIMIT 50;
 ```
 
+**BigQuery screenshot**
 
-**BigQuery output screenshot**
-
-![Query 2 execution result in BigQuery](images/query02.png){fig-alt="BigQuery results for Query 2" width="100%"}
+![Query 2](images/query02.png){fig-alt="BigQuery results for Query 2" width="100%"}
 
 **Result and interpretation.** Returns up to 50 page-view event timestamps and associated page URLs for December 1–2, 2020. The URL is a page-level attribute rather than a separate top-level column.
 
@@ -93,7 +89,7 @@ LIMIT 50;
 
 **SQL code**
 
-```sql
+``` sql
 -- Query 03: UNNEST Items
 -- Item-level analysis of purchase events
 
@@ -109,10 +105,9 @@ GROUP BY event_date, item.item_name
 ORDER BY item_rows DESC;
 ```
 
+**BigQuery screenshot**
 
-**BigQuery output screenshot**
-
-![Query 3 execution result in BigQuery](images/query03.png){fig-alt="BigQuery results for Query 3" width="100%"}
+![Query 3](images/query03.png){fig-alt="BigQuery results for Query 3" width="100%"}
 
 **Result and interpretation.** The earlier BigQuery result showed 3,573 grouped rows. item_rows counts expanded item records, not necessarily the number of units sold.
 
@@ -122,7 +117,7 @@ ORDER BY item_rows DESC;
 
 **SQL code**
 
-```sql
+``` sql
 -- Query 04: ARRAY_AGG - Cart Summary
 -- List items added to cart by user
 
@@ -138,10 +133,9 @@ ORDER BY user_pseudo_id
 LIMIT 10;
 ```
 
+**BigQuery screenshot**
 
-**BigQuery output screenshot**
-
-![Query 4 execution result in BigQuery](images/query04.png){fig-alt="BigQuery results for Query 4" width="100%"}
+![Query 4](images/query04.png){fig-alt="BigQuery results for Query 4" width="100%"}
 
 **Result and interpretation.** Returns up to 10 users with arrays of added-to-cart item names. Repeated names may appear because the query does not deduplicate.
 
@@ -151,7 +145,7 @@ LIMIT 10;
 
 **SQL code**
 
-```sql
+``` sql
 -- Query 05: Session-Level Cart Summary
 -- Summarize cart items for each user session
 
@@ -196,10 +190,9 @@ GROUP BY user_pseudo_id, session_id
 LIMIT 10;
 ```
 
+**BigQuery screenshot**
 
-**BigQuery output screenshot**
-
-![Query 5 execution result in BigQuery](images/query05.png){fig-alt="BigQuery results for Query 5" width="100%"}
+![Query 5](images/query05.png){fig-alt="BigQuery results for Query 5" width="100%"}
 
 **Result and interpretation.** Returns up to 10 user-session summaries. The item array is sorted by quantity descending and event time ascending, with at most 10 item entries per session.
 
@@ -209,7 +202,7 @@ LIMIT 10;
 
 **SQL code**
 
-```sql
+``` sql
 -- Query 06: JOINs - Daily Users and Purchases
 -- Combine daily user counts and purchase transactions
 
@@ -250,10 +243,9 @@ LEFT JOIN daily_purchases p
 ORDER BY u.event_date;
 ```
 
+**BigQuery screenshot**
 
-**BigQuery output screenshot**
-
-![Query 6 execution result in BigQuery](images/query06.png){fig-alt="BigQuery results for Query 6" width="100%"}
+![Query 6](images/query06.png){fig-alt="BigQuery results for Query 6" width="100%"}
 
 **Result and interpretation.** Returns daily user counts, distinct transaction-ID counts, and purchases per user expressed as a percentage. This is a transaction-to-user ratio, not necessarily a unique-buyer conversion rate.
 
@@ -263,7 +255,7 @@ ORDER BY u.event_date;
 
 **SQL code**
 
-```sql
+``` sql
 -- Query 07: Window Functions + QUALIFY
 -- Top 3 event types per day
 
@@ -290,10 +282,9 @@ QUALIFY rnk <= 3
 ORDER BY event_date, rnk;
 ```
 
+**BigQuery screenshot**
 
-**BigQuery output screenshot**
-
-![Query 7 execution result in BigQuery](images/query07.png){fig-alt="BigQuery results for Query 7" width="100%"}
+![Query 7](images/query07.png){fig-alt="BigQuery results for Query 7" width="100%"}
 
 **Result and interpretation.** The earlier result displayed 21 rows for seven days. RANK can include ties, so some datasets could return more than three event types on a day.
 
@@ -303,7 +294,7 @@ ORDER BY event_date, rnk;
 
 **SQL code**
 
-```sql
+``` sql
 -- Query 08: Rolling 7-Day Average
 -- Calculate 7-day moving average of daily purchases
 
@@ -328,10 +319,9 @@ FROM daily_purchases
 ORDER BY dt;
 ```
 
+**BigQuery screenshot**
 
-**BigQuery output screenshot**
-
-![Query 8 execution result in BigQuery](images/query08.png){fig-alt="BigQuery results for Query 8" width="100%"}
+![Query 8](images/query08.png){fig-alt="BigQuery results for Query 8" width="100%"}
 
 **Result and interpretation.** The first six dates use shorter windows. Because the query does not generate missing calendar dates, its window is seven observed daily rows rather than guaranteed consecutive dates.
 
@@ -341,7 +331,7 @@ ORDER BY dt;
 
 **SQL code**
 
-```sql
+``` sql
 -- Query 09: Approximate Functions
 -- Approximate distinct users per event type
 
@@ -355,10 +345,9 @@ ORDER BY approx_users DESC
 LIMIT 15;
 ```
 
+**BigQuery screenshot**
 
-**BigQuery output screenshot**
-
-![Query 9 execution result in BigQuery](images/query09.png){fig-alt="BigQuery results for Query 9" width="100%"}
+![Query 9](images/query09.png){fig-alt="BigQuery results for Query 9" width="100%"}
 
 **Result and interpretation.** The earlier screenshot showed page_view at approximately 104,837 users, session_start at 104,243, and first_visit at 97,528. These are estimates rather than exact distinct counts.
 
@@ -368,11 +357,5 @@ Across the nine exercises, the analysis moves from user counts and GA4 parameter
 
 ## Appendix: Published Links
 
-- **GitHub Repository:** [Insert repository URL after publishing](https://github.com/) — replace with your actual repository URL.
-- **GitHub Pages:** [Insert live report URL after publishing](https://pages.github.com/) — replace with your actual published report URL.
-
-> Replace both placeholder links with verified URLs before submitting.
-
-## Publishing Notes
-
-To publish this report, render the `.qmd` file to HTML in RStudio or Quarto, then upload the generated HTML (renamed `index.html` if publishing at the repository root) to the intended GitHub repository. Add the actual GitHub Pages URL only after the site has been published and verified.
+-   **GitHub Repository:** [Insert repository URL after publishing](https://github.com/WillySuu/W05-BigQuery-SQL-Lecture-2)
+-   **GitHub Pages:** [Insert live report URL after publishing](https://willysuu.github.io/W05-BigQuery-SQL-Lecture-2/W05-BigQuery-SQL-Lecture-2-With-Results.html)
